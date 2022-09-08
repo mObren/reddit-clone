@@ -11,16 +11,23 @@ class Thread extends Model
 
     protected $guarded = ['id'];
 
+    /**
+     * 
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    
+    /**
+     * 
+     */
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
     }
-
+    /**
+     * 
+     */
     public function isOlderThanSixHours(): bool
     {
         return strtotime($this->created_at) <= strtotime('-6 hours');

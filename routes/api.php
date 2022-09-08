@@ -20,10 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-
-Route::prefix('threads')->group( function () {
+Route::prefix('threads')->middleware('auth')->group(function () {
     Route::get('/', [ThreadController::class, 'index']);
     Route::get('/{thread}', [ThreadController::class, 'show']);
     Route::post('/create', [ThreadController::class, 'create']);

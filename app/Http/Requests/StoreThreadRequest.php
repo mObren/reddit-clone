@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\IsUserRegisteredToReddit;
 
-class UserLoginRequest extends FormRequest
+class StoreThreadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +24,9 @@ class UserLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            "username" => ['required', 'exists:users,username', new IsUserRegisteredToReddit],
-
-            "password" => 'required',
+            'user_id' => 'required',
+            'title' => 'required|max:255',
+            'body' => 'required|max:2000'
         ];
     }
 }

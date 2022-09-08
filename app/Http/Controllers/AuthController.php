@@ -26,7 +26,10 @@ class AuthController extends Controller
             'username' => $redditUser->nickname,
         ]
     );
+
         Auth::login($user);
+
+        
         return redirect('/');
     }
 

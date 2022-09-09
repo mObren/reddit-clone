@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,10 @@ class AuthController extends Controller
         return Socialite::driver('reddit')->redirect();
     }
 
-    public function callback()
+    /**
+     * @return RedirectResponse
+     */
+    public function callback(): RedirectResponse
     {
         $redditUser = Socialite::driver('reddit')->user();
         $user = User::updateOrCreate(
@@ -32,7 +36,10 @@ class AuthController extends Controller
         
         return redirect('/');
     }
-
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function logout(Request $request)
     {
         Auth::guard()->logout();

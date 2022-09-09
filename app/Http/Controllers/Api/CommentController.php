@@ -4,27 +4,40 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
-use App\Http\Requests\StoreReplyRequest;
 use App\Models\Comment;
 use App\Models\Thread;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class CommentController extends Controller
 {
-
-    public function show(Comment $comment)
+    /**
+     * @param Comment $comment
+     * @return JsonResponse
+     */
+    public function show(Comment $comment): JsonResponse
     {
         return response()->json(['data' => $comment]);
     }
 
-    public function showAllCommentsOfAThread(Thread $thread)
+    /**
+     * @param Thread $thread
+     * @return JsonResponse
+     */
+    public function showAllCommentsOfAThread(Thread $thread): JsonResponse
     {
         $comments = $thread->comments()->get();
 
         return response()->json(['data' => $comments]);
     }
-
-    public function store(Thread $thread, StoreCommentRequest $request)
+    
+    /**
+     * store
+     *
+     * @param  Thread $thread
+     * @param  StoreCommentRequest $request
+     * @return JsonResponse
+     */
+    public function store(Thread $thread, StoreCommentRequest $request): JsonResponse
     {
 
         $validated = $request->validated();
@@ -40,7 +53,16 @@ class CommentController extends Controller
 
     }
 
-    public function replyStore(Thread $thread, Comment $comment, StoreCommentRequest $request)
+        
+    /**
+     * replyStore
+     *
+     * @param  Thread $thread
+     * @param  Comment $comment
+     * @param  StoreCommentRequest $request
+     * @return JsonResponse
+     */
+    public function replyStore(Thread $thread, Comment $comment, StoreCommentRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $userId = auth()->user()->id;

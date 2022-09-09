@@ -5,29 +5,46 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreThreadRequest;
 use App\Models\Thread;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class ThreadController extends Controller
 {
-    public function index()
+    /**
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
     {
         $threads = Thread::all();
         return response()->json($threads);
     }
 
-    public function create(StoreThreadRequest $request)
+    /**
+     * @param StoreThreadRequest $request
+     * @return JsonResponse
+     */
+    public function create(StoreThreadRequest $request): JsonResponse
     {
         $validated = $request->validated();
         $thread = Thread::create($validated);
         return response()->json(['message' => 'Thread has been created.', 'data' => $thread]);
     }
 
-    public function show(Thread $thread)
+    /**
+     * @param Thread $thread
+     * @return JsonResponse
+     */
+    public function show(Thread $thread): JsonResponse
     {
         return response()->json(['data' => $thread]);
     }
 
-    public function update(Thread $thread, StoreThreadRequest $request)
+    /**
+     * @param Thread $thread
+     * @param StoreThreadRequest $request
+     * @return JsonResponse
+     */
+    public function update(Thread $thread, StoreThreadRequest $request): JsonResponse
     {
         if (!$thread->isOlderThanSixHours()) {
             return response()->json(['message' => 'In order to edit a thread, you need to wait for six hours.']);
@@ -41,7 +58,11 @@ class ThreadController extends Controller
         return response()->json(['message' => 'Thread has been updated.', 'data' => $validated]);
     }
 
-    public function delete(Thread $thread)
+    /**
+     * @param Thread
+     * @return JsonResponse
+     */
+    public function delete(Thread $thread): JsonResponse
     {
         Thread::destroy($thread->id);
         return response()->json(['message' => 'Thread has been deleted.']);

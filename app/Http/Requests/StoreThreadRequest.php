@@ -24,7 +24,6 @@ class StoreThreadRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
             'title' => 'required|max:255',
             'body' => 'required|max:2000'
         ];

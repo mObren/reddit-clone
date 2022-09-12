@@ -32,9 +32,9 @@ class AuthController extends Controller
     );
 
         Auth::login($user);
-
+        $token = $user->createToken('redditClone');
         
-        return redirect('/');
+        return redirect()->route('home');
     }
     /**
      * @param Request $request

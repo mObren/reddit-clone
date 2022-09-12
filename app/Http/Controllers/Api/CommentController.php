@@ -41,7 +41,7 @@ class CommentController extends Controller
     {
 
         $validated = $request->validated();
-        $userId = auth()->user()->id;
+        $userId = $request->user()->id;
         $comment = new Comment;
 
         $comment->body = $validated['body'];
@@ -65,7 +65,7 @@ class CommentController extends Controller
     public function replyStore(Thread $thread, Comment $comment, StoreCommentRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $userId = auth()->user()->id;
+        $userId = $request->user()->id;
         $reply = new Comment;
 
         $reply->body = $validated['body'];

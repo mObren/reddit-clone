@@ -8,17 +8,20 @@ use App\Models\Thread;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use GuzzleHttp\Client;
+use App\Http\Resources\ThreadResource;
+use App\Http\Resources\CommentResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ThreadController extends Controller
 {
+
     /**
-     * @return JsonResponse
+     * @return ResourceCollection
      */
-    public function index(): JsonResponse
+    public function index(): ResourceCollection
     {
         $threads = Thread::all();
-        return response()->json(["threads" => $threads]);
+        return ThreadResource::collection(Thread::all());
     }
 
     /**
@@ -35,11 +38,11 @@ class ThreadController extends Controller
 
     /**
      * @param Thread $thread
-     * @return JsonResponse
+     * @return ThreadResource
      */
-    public function show(Thread $thread): JsonResponse
+    public function show(Thread $thread): ThreadResource
     {
-        return response()->json(['thread' => $thread]);
+        return new ThreadResource(Thread::findOrFail($thread->id));
     }
 
     /**

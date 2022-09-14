@@ -7,6 +7,9 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\Thread;
 use Illuminate\Http\JsonResponse;
+use App\Http\Resources\ThreadResource;
+use App\Http\Resources\CommentResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class CommentController extends Controller
 {
@@ -21,13 +24,13 @@ class CommentController extends Controller
 
     /**
      * @param Thread $thread
-     * @return JsonResponse
+     * @return ResourceCollection
      */
-    public function showAllCommentsOfAThread(Thread $thread): JsonResponse
+    public function showAllCommentsOfAThread(Thread $thread): ResourceCollection
     {
-        $comments = $thread->comments()->get();
+        return CommentResource::collection($thread->comments()->get());
 
-        return response()->json(['data' => $comments]);
+    
     }
     
     /**
